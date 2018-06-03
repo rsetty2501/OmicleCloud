@@ -76,6 +76,11 @@ public class FirebaseDatabaseOp {
 		city = "Uppsala";
 		databaseRef = database.getReference(city);
 		DatabaseReference usersRef = databaseRef.child(currDate);
+		
+		// clean the data if already exists
+		writeNull(usersRef);
+		
+		
 		DatabaseReference clusterRef = databaseRef.child(currDate).child("Clusters");
 		
 		// Push the cluster details in the firebase
@@ -112,6 +117,24 @@ public class FirebaseDatabaseOp {
 			writeMetrics(ref,clustTime);
 		}
 		
+	}
+	
+	private void writeNull(DatabaseReference usersRef) {
+		
+		final Semaphore semaphore = new Semaphore(0);
+		usersRef.setValue(null, new DatabaseReference.CompletionListener() {
+			
+			@Override
+			public void onComplete(DatabaseError arg0, DatabaseReference arg1) {
+				semaphore.release();
+			}
+		});
+
+		try {
+			semaphore.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}	
 	}
 	
 	private void writeMetrics(DatabaseReference usersRef, Map<String, Double> metric) {

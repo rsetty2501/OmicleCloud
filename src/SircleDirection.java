@@ -46,7 +46,7 @@ public class SircleDirection {
 		URL url = null;
 		try {
 			url = new URL(stringUrl + src_latitude + "," + src_longitude + "&destinations=" + des_latitude + ","
-					+ des_longitude + "&key=<APIKEY>");
+					+ des_longitude + "&key=AIzaSyAcpn4zmrc7yjeXDpv5Gv-lLkAZqYDxoOg");
 		} catch (MalformedURLException exception) {
 			exception.printStackTrace();
 			return null;

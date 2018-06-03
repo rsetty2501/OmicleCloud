@@ -16,7 +16,7 @@ public class GeoCodingSircle {
 	public ResponseFromGoogle convertAddresstoLatLon(String address) throws IOException, UnsupportedEncodingException {
 		  
 		URL url = new URL(URL + "?address="
-				    + URLEncoder.encode(address, "UTF-8") + "&sensor=false&key=<APIKEY>");
+				    + URLEncoder.encode(address, "UTF-8") + "&sensor=false&key=AIzaSyAcpn4zmrc7yjeXDpv5Gv-lLkAZqYDxoOg");
 		
 		
 		  // Open the Connection

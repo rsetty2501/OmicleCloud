@@ -7,40 +7,117 @@ public final class RouteGeneration {
 	private static double time[][];
 	private static Stack<Integer> stack = new Stack<>();
 
+	// Variables for Tsp using dynamic programming
+	static int n;
+	static int START_NODE = 0;
+	static int VISITED_ALL;
+	// So, in Bitmasking (1 << n) is 2^n
+	static double[][] dp;
+	static int[][] tour;
+
 	private RouteGeneration() {
 
 	}
 
 	public static LinkedList<Integer> OptimalRoute(LinkedList<LocationUpdated> address) {
 
-		distance = new double[address.size()][address.size()];
-		time = new double[address.size()][address.size()];
+		n = address.size();
+		distance = new double[n][n];
+		time = new double[n][n];
 		LinkedList<Integer> minCostArray = new LinkedList<>();
 
+		// Dynamic programming
+		VISITED_ALL = (1 << n) - 1;
+		dp = new double[n][(1 << n)];
+		tour = new int[n][(1 << n)];
+
+		// Init the dp array
+		// Init the dp array
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < (1 << n); j++) {
+				dp[i][j] = -1;
+			}
+		}
+
 		fillDistanceMatrix(address, distance, time);
-		tspNearestNeighbor(minCostArray);
+
+		if (address.size() <= 3) {
+			tspNearestNeighbor(minCostArray);
+		} else {
+			tspDynamicProg(START_NODE, 1); // send the start node and the bit mask is 1 (0001) means visiting the first
+											// node
+			getMinpath(START_NODE, 1, minCostArray);
+		}
+
 		return minCostArray;
 
 	}
-	
+
+	private static void getMinpath(int node, int visitedState, LinkedList<Integer> minCostArray) {
+
+		int index = node;
+		while (true) {
+			minCostArray.add(index);
+			int nextIndex = tour[index][visitedState];
+			if (nextIndex == 0)
+				break;
+			int nextMask = visitedState | (1 << nextIndex);
+			visitedState = nextMask;
+			index = nextIndex;
+		}
+
+	}
+
+	public static double tspDynamicProg(int node, int visitedState) {
+
+		if (visitedState == VISITED_ALL) {
+			return distance[node][0];
+		}
+
+		if (dp[node][visitedState] != -1) {
+			return dp[node][visitedState];
+		}
+
+		double ans = 100000;
+		int index = -1;
+
+		// Visit all unvisited cities
+		for (int city = 0; city < n; city++) {
+
+			if ((visitedState & (1 << city)) == 0) {
+
+				System.out.println("city: " + city);
+				double newAns = distance[node][city] + tspDynamicProg(city, visitedState | (1 << city));
+
+				if (newAns < ans) {
+					ans = newAns;
+					index = city;
+				}
+			}
+		}
+
+		tour[node][visitedState] = index;
+		return dp[node][visitedState] = ans;
+
+	}
+
 	public static Metrics getCoordMetrics(LinkedList<Integer> minCostArray1) {
 		double sumDistance = 0.0;
 		double sumDuration = 0.0;
-        for(int k = 0; k < minCostArray1.size(); k++) {
-        	
-        	if(k == minCostArray1.size() -1 ) {
-        		sumDistance = sumDistance + distance[minCostArray1.get(k)][minCostArray1.get(0)];
-        		sumDuration = sumDuration + time[minCostArray1.get(k)][minCostArray1.get(0)];
-        	}
-        	else {
-        		sumDistance = sumDistance + distance[minCostArray1.get(k)][minCostArray1.get(k + 1)];
-        		sumDuration = sumDuration + time[minCostArray1.get(k)][minCostArray1.get(k + 1)];
-        	}
-        	
-        }
-        Metrics metric = new Metrics(sumDistance, sumDuration);
-        return metric;
-        
+		for (int k = 0; k < minCostArray1.size(); k++) {
+
+			if (k == minCostArray1.size() - 1) {
+				sumDistance = sumDistance + distance[minCostArray1.get(k)][minCostArray1.get(0)];
+				sumDuration = sumDuration + time[minCostArray1.get(k)][minCostArray1.get(0)];
+			} else {
+				sumDistance = sumDistance + distance[minCostArray1.get(k)][minCostArray1.get(k + 1)];
+				sumDuration = sumDuration + time[minCostArray1.get(k)][minCostArray1.get(k + 1)];
+			}
+
+		}
+		Metrics metric = new Metrics(sumDistance, sumDuration);
+		return metric;
+
 	}
 
 	private static void tspNearestNeighbor(LinkedList<Integer> minCostArray) {
@@ -93,6 +170,8 @@ public final class RouteGeneration {
 					SircleDirection sircleDir = new SircleDirection(address.get(i).getLatitude(),
 							address.get(i).getLongitude(), address.get(j).getLatitude(), address.get(j).getLongitude());
 					Metrics metric = sircleDir.getDistanceTimeCoord();
+					System.out.println("Route distance: " + i + " " + j + "=" + metric.getDistance());
+					// System.out.println("Route time: " + i + " " + j + "=" + metric.getTime());
 					distance[i][j] = metric.getDistance();
 					time[i][j] = metric.getTime();
 

@@ -30,6 +30,7 @@ public final class QueryDistanceTimeData {
                 JSONObject zero2 = element.getJSONObject(0);
                 JSONObject dist = zero2.getJSONObject("distance");
                 distance = dist.getString("text");
+                System.out.println("Distance: " + distance);
                 
                 if(distance.contains("km")) {
                 	distance = distance.replaceAll("km", "");
@@ -43,6 +44,7 @@ public final class QueryDistanceTimeData {
                 
                 JSONObject duration = zero2.getJSONObject("duration");
                 time = duration.getString("text");
+//                System.out.println("Duration: " + time);
                 time = time.replaceAll("mins", "");
                 time = time.replaceAll("min", "");
                 Time = Double.parseDouble(time);
