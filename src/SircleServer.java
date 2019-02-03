@@ -32,27 +32,27 @@ public class SircleServer {
 		geoCodingService(infoList, locList);
 		
 		// Testing the threading in this
-		Thread thread1 = new Thread() {
-			public void run() {
-				sweepClustering(locList, updatedCusterNodes);
-			}
-		};
+//		Thread thread1 = new Thread() {
+//			public void run() {
+//				sweepClustering(locList, updatedCusterNodes);
+//			}
+//		};
 		
-		Thread thread2 = new Thread() {
-			public void run() {
-				sweepClusteringReverse(locList, updatedCusterNodes);
-			}
-		};
+//		Thread thread2 = new Thread() {
+//			public void run() {
+//				sweepClusteringReverse(locList, updatedCusterNodes);
+//			}
+//		};
 		
-		thread1.start();
-		thread2.start();
+		//thread1.start();
+		//thread2.start();
 		
-		thread1.join();
-		thread2.join();
+		//thread1.join();
+		//thread2.join();
 
-//		sweepClustering(locList, updatedCusterNodes);
+		sweepClustering(locList, updatedCusterNodes);
 
-//		sweepClusteringReverse(locList, updatedCusterNodes);
+		sweepClusteringReverse(locList, updatedCusterNodes);
 
 		compareSweepClusteringMetrics();
 		
@@ -137,20 +137,20 @@ public class SircleServer {
 	private static void createListUserDepotInfo(LinkedList<DepotUserInfo> infoList) {
 
 		DepotUserInfo depotuser1 = new DepotUserInfo("Kvarnbolund 9, 752 63 Uppsala", "Ragn-Sells", null);
-		DepotUserInfo depotuser2 = new DepotUserInfo("Herrhagsvägen 50, 752 67 Uppsala", "Patrick", "Yes"); // 1
-		DepotUserInfo depotuser3 = new DepotUserInfo("Stenhuggarvägen 46, 75267 Uppsala", "Micheal", "Yes"); // 2
-		DepotUserInfo depotuser4 = new DepotUserInfo("Pimpstensvägen 5-11, 75267 Uppsala", "Tom", "Yes"); // 3
-		DepotUserInfo depotuser5 = new DepotUserInfo("Sandstensvägen 3, 752 67 Uppsala", "Dick", "Yes"); // 4
-		DepotUserInfo depotuser6 = new DepotUserInfo("Sandstensvägen 2, 752 67 Uppsala", "Harry", "Yes"); // 5
+		DepotUserInfo depotuser2 = new DepotUserInfo("Herrhagsvï¿½gen 50, 752 67 Uppsala", "Patrick", "Yes"); // 1
+		DepotUserInfo depotuser3 = new DepotUserInfo("Stenhuggarvï¿½gen 46, 75267 Uppsala", "Micheal", "Yes"); // 2
+		DepotUserInfo depotuser4 = new DepotUserInfo("Pimpstensvï¿½gen 5-11, 75267 Uppsala", "Tom", "Yes"); // 3
+		DepotUserInfo depotuser5 = new DepotUserInfo("Sandstensvï¿½gen 3, 752 67 Uppsala", "Dick", "Yes"); // 4
+		DepotUserInfo depotuser6 = new DepotUserInfo("Sandstensvï¿½gen 2, 752 67 Uppsala", "Harry", "Yes"); // 5
 
-		// DepotUserInfo depotuser7 = new DepotUserInfo("Stenhagsvägen 223, 752 66
+		// DepotUserInfo depotuser7 = new DepotUserInfo("Stenhagsvï¿½gen 223, 752 66
 		// Uppsala", "Samuel", "Yes"); // 6
-		DepotUserInfo depotuser8 = new DepotUserInfo("Stenhagsvägen 213, 752 66 Uppsala", "Julia", "Yes"); // 7
-		DepotUserInfo depotuser9 = new DepotUserInfo("Stenhagsvägen 103, 752 60 Uppsala", "Daniel", "Yes"); // 8
-		DepotUserInfo depotuser10 = new DepotUserInfo("Kullerstensvägen 2, 752 60 Uppsala", "Philip", "Yes"); // 9
-		DepotUserInfo depotuser11 = new DepotUserInfo("Stenhagsvägen 89, 752 60 Uppsala", "Martin", "Yes"); // 10
+		DepotUserInfo depotuser8 = new DepotUserInfo("Stenhagsvï¿½gen 213, 752 66 Uppsala", "Julia", "Yes"); // 7
+		DepotUserInfo depotuser9 = new DepotUserInfo("Stenhagsvï¿½gen 103, 752 60 Uppsala", "Daniel", "Yes"); // 8
+		DepotUserInfo depotuser10 = new DepotUserInfo("Kullerstensvï¿½gen 2, 752 60 Uppsala", "Philip", "Yes"); // 9
+		DepotUserInfo depotuser11 = new DepotUserInfo("Stenhagsvï¿½gen 89, 752 60 Uppsala", "Martin", "Yes"); // 10
 
-		DepotUserInfo depotuser12 = new DepotUserInfo("Stenhagsvägen 11, 752 60 Uppsala", "Emanuel", "Yes"); // 11
+		DepotUserInfo depotuser12 = new DepotUserInfo("Stenhagsvï¿½gen 11, 752 60 Uppsala", "Emanuel", "Yes"); // 11
 
 		infoList.add(depotuser1);
 		infoList.add(depotuser2);
